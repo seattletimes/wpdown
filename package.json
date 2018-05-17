@@ -1,0 +1,27 @@
+{
+  "name": "wpdown",
+  "version": "0.0.1",
+  "description": "Wordpress post --> Markdown file",
+  "keywords": [
+    "wordpress",
+    "markdown",
+    "chrome",
+    "extension"
+  ],
+  "homepage": "https://github.com/seattletimes/wpdown#readme",
+  "bugs": {
+    "url": "https://github.com/seattletimes/wpdown/issues"
+  },
+  "license": "GPL-3.0",
+  "author": "Alec Glassford <glassford@cs.stanford.edu> (https://alecglassford.com)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seattletimes/wpdown.git"
+  },
+  "scripts": {
+    "build": "rollup -c && cp src/manifest.json build",
+    "dev": "npm run build && rollup -cw",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true
+}

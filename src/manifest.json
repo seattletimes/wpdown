@@ -1,0 +1,14 @@
+{
+  "name": "wpdown",
+  "version": "0.0.1",
+  "description": "Wordpress post --> Markdown file",
+  "permissions": ["activeTab", "cookies", "https://*.seattletimes.com/*"],
+  "background": {
+    "scripts": ["bundle.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_title": "wpdown"
+  },
+  "manifest_version": 2
+}

@@ -1,11 +1,13 @@
-chrome.browserAction.onClicked.addListener(() => {
-  console.log('hi');
-  chrome.tabs.query({ active: true }, async (tabs) => {
-    const [tab] = tabs;
-    const res = await fetch(tab.url, {
-      credentials: 'include',
-    });
-    const src = await res.text();
-    console.log(src);
-  })
+const currentTab = () => new Promise((resolve, resject) => {
+  chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+    if (tabs.length == 1) resolve(tabs[0]);
+    else reject(new Error(`Found ${tabs.length} active tabs.`));
+  });
 });
+
+const main = async function() {
+  const tab = await currentTab();
+  chrome.tabs.executeScript(tab.id, { file: 'inject.js' });
+};
+
+chrome.browserAction.onClicked.addListener(main);

@@ -4,11 +4,12 @@
   "description": "Wordpress post --> Markdown file",
   "permissions": ["activeTab", "cookies", "https://*.seattletimes.com/*"],
   "background": {
-    "scripts": ["bundle.js"],
+    "scripts": ["main.js"],
     "persistent": false
   },
   "browser_action": {
     "default_title": "wpdown"
   },
+  "web_accessible_resources": ["injectception.js"],
   "manifest_version": 2
 }

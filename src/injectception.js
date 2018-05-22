@@ -84,12 +84,25 @@ const toMarkdown = function toMarkdown(input) {
   return cleanWhitespace(result);
 };
 
+const addTopBottom = function addTopBottom(data, body) {
+  return `# ${data.title.raw.trim() || 'HEADLINE TK'}
+
+By ${data.st_authors.join(' and ') || 'BYLINE TK'}
+
+${data.st_credit.trim() || 'CREDIT TK'}
+
+${body}
+
+*${data.st_tagline.trim() || 'TAGLINE TK'}*`;
+};
+
 const main = async function main() {
   const { nonce } = window.wpApiSettings;
   const postId = window.location.href.match(/post=(\d+)/)[1];
   const data = await getData(postId, nonce);
-  console.log(data.content.raw);
-  const output = toMarkdown(data.content.raw);
+  console.log(data);
+  const body = toMarkdown(data.content.raw);
+  const output = addTopBottom(data, body);
   console.log(output);
 };
 

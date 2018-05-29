@@ -16,18 +16,21 @@ const getData = async function getData(postId, nonce) {
   return res.json();
 };
 
-const main = async function main() {
-  const tab = await currentTab();
-  chrome.tabs.executeScript(tab.id, { file: 'inject.js' });
-  chrome.runtime.onMessage.addListener(async (nonce) => {
-    const postId = tab.url.match(/post=(\d+)/)[1];
-    const data = await getData(postId, nonce);
-    const output = convert(data);
-    // https://stackoverflow.com/questions/10701983/what-is-the-mime-type-for-markdown
-    const blob = new Blob([output], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    chrome.downloads.download({ url, saveAs: true });
-  });
-};
+chrome.browserAction.onClicked.addListener(() => {
+  chrome.tabs.executeScript({ file: 'inject.js' });
+});
 
-chrome.browserAction.onClicked.addListener(main);
+chrome.runtime.onMessage.addListener(async (nonce) => {
+  const tab = await currentTab();
+  const postId = tab.url.match(/post=(\d+)/)[1];
+  const data = await getData(postId, nonce);
+  const output = convert(data);
+  // https://stackoverflow.com/questions/10701983/what-is-the-mime-type-for-markdown
+  const blob = new Blob([output], { type: 'text/markdown; charset=UTF-8' });
+  const url = URL.createObjectURL(blob);
+  chrome.downloads.download({
+    url,
+    saveAs: true,
+    filename: `${data.title.raw.trim().toLowerCase().replace(/\W+/g, '-')}.md`,
+  });
+});

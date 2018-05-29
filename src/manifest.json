@@ -2,12 +2,12 @@
   "name": "wpdown",
   "version": "0.0.1",
   "description": "Wordpress post --> Markdown file",
-  "permissions": ["activeTab", "cookies", "downloads", "https://*.seattletimes.com/*"],
+  "permissions": ["activeTab", "cookies", "declarativeContent", "downloads", "https://*.seattletimes.com/*"],
   "background": {
     "scripts": ["main.js"],
     "persistent": false
   },
-  "browser_action": {
+  "page_action": {
     "default_title": "wpdown"
   },
   "web_accessible_resources": ["injectception.js"],

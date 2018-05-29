@@ -3,6 +3,10 @@
 
 import convert from './convert';
 
+const removeDeclarativeRules = () => new Promise((resolve) => {
+  chrome.declarativeContent.onPageChanged.removeRules(undefined, () => resolve());
+});
+
 const currentTab = () => new Promise((resolve, reject) => {
   chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
     if (tabs.length === 1) resolve(tabs[0]);
@@ -16,10 +20,23 @@ const getData = async function getData(postId, nonce) {
   return res.json();
 };
 
-chrome.browserAction.onClicked.addListener(() => {
+// Set which pages to enable extension button (only Wordpress post pages)
+chrome.runtime.onInstalled.addListener(async () => {
+  await removeDeclarativeRules();
+  chrome.declarativeContent.onPageChanged.addRules([{
+    conditions: [new chrome.declarativeContent.PageStateMatcher({
+      pageUrl: { originAndPathMatches: 'https://www.seattletimes.com/wp-admin/post.php' },
+    })],
+    actions: [new chrome.declarativeContent.ShowPageAction()],
+  }]);
+});
+
+// Inject script (to get nonce) if you click button on matching page
+chrome.pageAction.onClicked.addListener(() => {
   chrome.tabs.executeScript({ file: 'inject.js' });
 });
 
+// When injected script sends nonce, do the processing
 chrome.runtime.onMessage.addListener(async (nonce) => {
   const tab = await currentTab();
   const postId = tab.url.match(/post=(\d+)/)[1];

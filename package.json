@@ -19,8 +19,8 @@
     "url": "git+https://github.com/seattletimes/wpdown.git"
   },
   "scripts": {
-    "build": "rollup -c && cp src/manifest.json build",
-    "dev": "npm run build && rollup -cw",
+    "build": "rollup -c",
+    "dev": "rollup -cw",
     "test": "eslint src"
   },
   "devDependencies": {

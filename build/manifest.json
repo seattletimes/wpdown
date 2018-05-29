@@ -8,8 +8,20 @@
     "persistent": false
   },
   "page_action": {
-    "default_title": "wpdown"
+    "default_title": "wpdown",
+    "default_icon":{
+      "16": "images/squirrel16.png",
+      "32": "images/squirrel32.png",
+      "72": "images/squirrel72.png",
+      "128": "images/squirrel128.png"
+    }
   },
   "web_accessible_resources": ["injectception.js"],
+  "icons": {
+    "16": "images/squirrel16.png",
+    "32": "images/squirrel32.png",
+    "72": "images/squirrel72.png",
+    "128": "images/squirrel128.png"
+  },
   "manifest_version": 2
 }
